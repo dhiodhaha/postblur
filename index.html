@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Cuekin</title>
+  <meta name="description" content="Blur nama dan foto profil di screenshot secara otomatis. Bagikan isinya, bukan akunnya. Diproses di HP kamu, gak diupload.">
+  <meta name="theme-color" content="#f5f5f5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121214" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap">
+  <link rel="stylesheet" href="style.css?v=5">
+</head>
+<body>
+  <header class="site-header">
+    <span class="plabel">Screenshot tanpa nama</span>
+    <h1>Cuekin</h1>
+    <p class="lede">Blur nama dan foto profil di screenshot X, TikTok, dan Instagram secara otomatis. Bagikan isinya, bukan akunnya.</p>
+    <p class="privacy-chip"><span class="privacy-dot" aria-hidden="true"></span>Diproses di HP kamu, gak diupload</p>
+    <a class="source-link" href="https://github.com/dhiodhaha/postblur" target="_blank" rel="noopener">Cek sendiri: kode sumbernya terbuka di GitHub</a>
+  </header>
+
+  <main>
+    <section class="win" aria-labelledby="upload-title">
+      <div class="win-bar">
+        <span class="win-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <h2 class="win-title" id="upload-title">Screenshot</h2>
+      </div>
+      <div class="win-screen">
+        <label class="dropzone" id="dropzone">
+          <input type="file" id="file-input" accept="image/*" multiple>
+          <span class="drop-icon" aria-hidden="true"></span>
+          <span class="dropzone-main">Pilih screenshot</span>
+          <span class="dropzone-sub">Bisa beberapa sekaligus</span>
+        </label>
+
+        <div class="gallery" id="gallery" hidden>
+          <ul id="thumbs" class="thumbs" aria-label="Screenshot kamu"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="win" aria-labelledby="options-title">
+      <div class="win-bar">
+        <span class="win-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <h2 class="win-title" id="options-title">Pengaturan</h2>
+      </div>
+      <div class="win-screen">
+        <p class="field-label" id="targets-label">Yang diblur</p>
+        <div class="chips" role="group" aria-labelledby="targets-label">
+          <label class="chip"><input type="checkbox" id="opt-avatar" checked><span>Foto profil</span></label>
+          <label class="chip"><input type="checkbox" id="opt-name" checked><span>Nama &amp; username</span></label>
+          <label class="chip"><input type="checkbox" id="opt-mention" checked><span>Mention @</span></label>
+        </div>
+        <p class="field-label" id="style-label">Gaya blur</p>
+        <div class="segmented" role="radiogroup" aria-labelledby="style-label">
+          <label><input type="radio" name="style" value="blur" checked><span>Blur</span></label>
+          <label><input type="radio" name="style" value="pixel"><span>Pixel</span></label>
+          <label><input type="radio" name="style" value="solid"><span>Hitam</span></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="win" id="editor" hidden aria-labelledby="editor-title">
+      <div class="win-bar">
+        <span class="win-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <h2 class="win-title" id="editor-title">Editor</h2>
+      </div>
+      <div class="win-toolbar">
+        <label class="switch">
+          <input type="checkbox" id="toggle-censor" checked>
+          <span class="switch-track" aria-hidden="true"><span class="switch-thumb"></span></span>
+          <span>Blur</span>
+        </label>
+        <button type="button" class="pill" id="draw-mode" aria-pressed="false">Gambar kotak</button>
+        <button type="button" class="pill pill-icon" id="remove-item" aria-label="Hapus screenshot ini" title="Hapus screenshot ini"><span class="trash" aria-hidden="true"></span></button>
+      </div>
+      <div class="win-screen win-screen-flush">
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+        <div class="stage" id="stage">
+          <canvas id="canvas"></canvas>
+        </div>
+        <p class="hint" id="hint">Tap kotak merah untuk matikan/nyalakan blur. Tap teks yang kelewat untuk ikut diblur. Untuk area lain, nyalakan <strong>Gambar kotak</strong> lalu geser di foto.</p>
+      </div>
+    </section>
+
+    <aside class="win win-note" aria-labelledby="note-title">
+      <div class="win-bar">
+        <span class="win-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <h2 class="win-title" id="note-title"><span class="note-ico" aria-hidden="true"></span>Catatan</h2>
+      </div>
+      <div class="note-body">
+        <p><strong>Kenapa diblur?</strong> Tiap akun yang kelihatan di screenshot ikut dapat perhatian: dicari, dikunjungi, dikomen. Algoritma menghitung semua itu sebagai engagement, termasuk yang marah-marah. Kalau nama dan fotonya diblur, yang tersebar cuma isinya.</p>
+        <p>Lebih baik lagi: <strong>cuekin</strong>. Gak usah screenshot, gak usah share, gak usah komen. Kasih engagement ke konten yang memang layak didukung.</p>
+        <p class="note-muted">Deteksi otomatis bisa meleset. Cek dulu sebelum kamu share.</p>
+        <p class="note-muted">Gratis dan bebas: pakai, ubah, sebarkan, tanpa izin dan tanpa syarat. <a href="https://github.com/dhiodhaha/postblur" target="_blank" rel="noopener">Kode sumber di GitHub</a>.</p>
+        <span class="tag">#CUEKINBUZZER</span>
+      </div>
+    </aside>
+  </main>
+
+  <div class="actionbar" id="actionbar" hidden>
+    <button type="button" class="btn btn-primary" id="save-one">Simpan foto ini</button>
+    <button type="button" class="btn btn-secondary" id="save-all" hidden>Simpan semua</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
+  <script src="detect.js?v=5"></script>
+  <script src="app.js?v=5"></script>
+</body>
+</html>
